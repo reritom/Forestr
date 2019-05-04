@@ -1,0 +1,6 @@
+setup.py
+Forestr.egg-info/PKG-INFO
+Forestr.egg-info/SOURCES.txt
+Forestr.egg-info/dependency_links.txt
+Forestr.egg-info/requires.txt
+Forestr.egg-info/top_level.txt
