@@ -12,6 +12,7 @@ from backend.tools.response_tools import (
     accepted
 )
 
+@method_decorator(csrf_exempt, name="dispatch")
 @method_decorator(login_required, name="dispatch")
 class SingleSurveyView(View):
     @method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'))
@@ -20,7 +21,6 @@ class SingleSurveyView(View):
             'survey': SurveySerialiser.serialise(survey)
         })
 
-    @method_decorator(csrf_exempt)
     @method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'))
     def patch(self, request, survey):
         return accepted({

@@ -22,7 +22,6 @@ class SingleItemView(View):
             'item': ItemSerialiser.serialise(item)
         })
 
-    @method_decorator(csrf_exempt)
     @method_decorator(Attach.incoming('item_id').to(Item).as_outgoing('item'))
     def patch(self, request, profile, item):
         return accepted({

@@ -46,6 +46,19 @@
 		},
 		{
 			"name": "Get Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dee86fc7-0414-466c-87f8-2a076818c9bc",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('organisation_id', response.profile.organisation.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -68,6 +81,19 @@
 		},
 		{
 			"name": "Post organisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3458b914-940d-4e28-87f1-8f3bd4fa3bb6",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('organisation_id', response.organisation.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -76,7 +102,7 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "TestOrgInc",
+							"value": "TestOrgIncey",
 							"type": "text"
 						},
 						{
@@ -123,14 +149,251 @@
 					]
 				},
 				"url": {
-					"raw": "{{domain}}/api/organisation/502b3838-9063-417d-a30a-5d8b17d46c84",
+					"raw": "{{domain}}/api/organisation/{{organisation_id}}",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
 						"api",
 						"organisation",
-						"502b3838-9063-417d-a30a-5d8b17d46c84"
+						"{{organisation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post survey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d200f204-8668-4623-88fd-528dd1c5980c",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('survey_id', response.survey.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/survey",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"survey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get survey",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/survey/{{survey_id}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"survey",
+						"{{survey_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('item_id', response.item.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						},
+						{
+							"key": "external_id",
+							"value": "hsuhhjf",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/item",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('item_id', response.item.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/item/{{item_id}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"{{item_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post survey item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('survey_item_id', response.survey_item.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "notes",
+							"value": "This tree looks ok",
+							"type": "text"
+						},
+						{
+							"key": "external_id",
+							"value": "hsuhhjf",
+							"type": "text"
+						},
+						{
+							"key": "item_id",
+							"value": "{{item_id}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/survey/{{survey_id}}/item",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"survey",
+						"{{survey_id}}",
+						"item"
 					]
 				}
 			},
