@@ -6,8 +6,8 @@ def internal_error(buffer: str):
 def not_found(buffer: str):
     return JsonResponse({'message': buffer}, status=404)
 
-def not_logged_in(buffer: str):
-    return JsonResponse({'message': buffer}, status=401)
+def not_logged_in():
+    return JsonResponse({'message': 'User not logged in'}, status=401)
 
 def not_permitted(buffer: str):
     return JsonResponse({'message': buffer}, status=403)

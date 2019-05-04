@@ -6,14 +6,15 @@ from django.views import View
 from backend.models.profile import Profile
 from backend.serialisers.profile_serialiser import ProfileSerialiser
 
+from backend.tools.decorators import attach_profile
 from backend.tools.response_tools import (
     ok
 )
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(attach_profile, name="dispatch")
 class ProfileView(View):
-    def get(self, request):
-        profile = Profile.objects.get(user=request.user)
+    def get(self, request, profile):
         return ok({
-            'profile': ProfileSerialiser.serialise(profile)
+            'profile': ProfileSerialiser.serialise_with_organisation(profile)
         })

@@ -1,15 +1,19 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from backend.models.profile import Profile
 
 from datetime import datetime, timedelta
 import uuid
 
-class Survey(models.Model):
+class Item(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
-    description = models.CharField(max_length=255)
-    survey_type = models.CharField(max_length=255, default="Misc")
-    created = models.DateTimeField(default=timezone.now)
+    external_id = models.CharField(max_length=255)
+    profile = models.ForeignKey(Profile, null=True)
+    tags = models.CharField(max_length=255, null=True)
+    photos = models.CharField(max_length=255, null=True)
+    description = models.CharField(max_length=255, null=True)
+    created = models.DateTimeField(default=timezone.now, null=True)
 
     def __str__(self):
         return f"{self.id} {self.created}"

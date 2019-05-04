@@ -21,6 +21,7 @@ class SurveyItemView(View):
     def post(self, request, survey):
         survey_item = SurveyItem.make(
             survey=survey,
+            item=item,
             description=description
         )
 

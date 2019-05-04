@@ -1,11 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
 
 from backend.models.survey import Survey
 from backend.serialisers.survey_serialiser import SurveySerialiser
-from backend.tools.decorators import Attach
+from backend.tools.decorators import Attach, login_required
 
 from backend.tools.response_tools import (
     created,
