@@ -14,9 +14,15 @@ class Item(models.Model):
     photos = models.CharField(max_length=255, null=True)
     description = models.CharField(max_length=255, null=True)
     created = models.DateTimeField(default=timezone.now, null=True)
+    location = models.CharField(max_length=255, null=True)
+    location_description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return f"{self.id} {self.created}"
+
+    def set_external_id(self, id):
+        self.external_id = id
+        self.save()
 
     @classmethod
     def make(cls, *args, **kwargs):

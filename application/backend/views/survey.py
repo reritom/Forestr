@@ -20,7 +20,8 @@ class SurveyView(View):
         survey = Survey.make(
             organisation=profile.organisation,
             description=request.POST['description'],
-            survey_type=request.POST['type']
+            survey_type=request.POST['type'],
+            status=request.POST.get('status', "PLANNED")
         )
 
         return created({
@@ -29,12 +30,10 @@ class SurveyView(View):
 
 
     def get(self, request, profile):
-        surveys = Survey.objects.filter(organisation=profile.organisation)
-
         return ok({
             'surveys': [
                 SurveySerialiser.serialise(survey)
                 for survey
-                in surveys
+                in Survey.objects.filter(organisation=profile.organisation)
             ]
         })

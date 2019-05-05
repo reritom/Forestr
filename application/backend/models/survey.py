@@ -12,6 +12,7 @@ class Survey(models.Model):
     description = models.CharField(max_length=255)
     organisation = models.ForeignKey(Organisation)
     survey_type = models.CharField(max_length=255, default="Misc")
+    status = models.CharField(max_length=255)
     created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

@@ -19,8 +19,8 @@ from backend.tools.response_tools import (
 
 @method_decorator(csrf_exempt, name="dispatch")
 @method_decorator(login_required, name="dispatch")
+@method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'), name="dispatch")
 class SurveyItemView(View):
-    @method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'))
     def post(self, request, survey):
         if not Item.objects.filter(id=request.POST['item_id']).exists():
             return not_found("Item for given id not found")
@@ -40,8 +40,11 @@ class SurveyItemView(View):
             'survey_item': SurveyItemSerialiser.serialise(survey_item)
         })
 
-    @method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'))
     def get(self, request, survey):
         return ok({
-            'survey_item': SurveyItemSerialiser.serialise(survey_item)
+            'survey_items': [
+                SurveyItemSerialiser.serialise(survey_item)
+                for survey_item
+                in SurveyItem.objects.filter(survey=survey)
+            ]
         })

@@ -1,6 +1,6 @@
 from functools import wraps
 from backend.models.profile import Profile
-from backend.tools.response_tools import not_found, not_logged_in
+from backend.tools.response_tools import not_found, not_logged_in, not_permitted
 
 class Attach:
     @classmethod
@@ -31,6 +31,47 @@ class Attach:
             return func(*args, **kwargs)
         return inner
 
+class Assert:
+    @classmethod
+    def that(cls, object_representation: str):
+        instance = cls()
+        instance.object_representation_a = object_representation
+        return instance
+
+    def equals(self, other_object_representation: str):
+        self.object_representation_b = other_object_representation
+        return self
+
+    def __call__(self, func):
+        wraps(func)
+        def inner(*args, **kwargs):
+            kwarg_name_a, kwarg_a_attributes = Assert.parse_object_representation(self.object_representation_a)
+            object_a_base = kwargs[kwarg_name_a]
+            object_a = Assert.get_nested_attribute(object_a_base, kwarg_a_attributes)
+
+            kwarg_name_b, kwarg_b_attributes = Assert.parse_object_representation(self.object_representation_b)
+            object_b_base = kwargs[kwarg_name_b]
+            object_b = Assert.get_nested_attribute(object_b_base, kwarg_b_attributes)
+
+            if not object_a == object_b:
+                return not_permitted(f"{self.object_representation_a} does not match {self.object_representation_b}")
+
+            return func(*args, **kwargs)
+        return inner
+
+    @staticmethod
+    def parse_object_representation(object_representation):
+        kwarg_name, *nested_attributes = object_representation.split('.')
+        return kwarg_name, nested_attributes
+
+    @staticmethod
+    def get_nested_attribute(base, attribute_tuple):
+        obj = base
+        for attribute in attribute_tuple:
+            obj = getattr(obj, attribute)
+        return obj
+
+
 def attach_profile(func):
     @wraps(func)
     def inner(request, *args, **kwargs):
@@ -38,7 +79,7 @@ def attach_profile(func):
         user = request.user
         profile = Profile.objects.get_or_create(user=user)[0]
 
-        return func(request, profile, *args, **kwargs)
+        return func(request, *args, profile=profile, **kwargs)
     return inner
 
 def login_required(func):
