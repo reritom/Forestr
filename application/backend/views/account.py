@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from backend.models.profile import Profile
+import uuid
 
+from backend.models.profile import Profile
+from backend.models.organisation import Organisation
 from backend.tools.response_tools import (
     ok,
     not_logged_in,
@@ -27,8 +29,21 @@ def signup(request):
             password=request.POST['password']
 
         )
-        
-        profile = Profile.objects.get_or_create(user=user)[0]
+
+        organisation = Organisation.make(
+            owner=user,
+            personal=True,
+            enterprise=False,
+            name=str(uuid.uuid4()),
+            description="Personal organisation"
+        )
+
+        profile = Profile.objects.create(
+            user=user,
+            organisation=organisation,
+            moderator=True
+        )
+
         login(request, user)
         return ok({'message':'User account successfully created'})
     else:

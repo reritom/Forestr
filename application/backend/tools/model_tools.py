@@ -16,3 +16,9 @@ def get_surveys_of_organisation(organisation):
 
 def get_profiles_of_organisation(organisation):
     return Profile.objects.filter(organisation=organisation)
+
+def get_items_of_organisation(organisation):
+    return Item.objects.filter(organisation=organisation)
+
+def is_item_external_id_unique_to_organisation(external_id, organisation) -> bool:
+    return not Item.objects.filter(organisation=organisation, external_id=external_id).exists()

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
-from backend.models.profile import Profile
+from backend.models.organisation import Organisation
 
 from datetime import datetime, timedelta
 import uuid
@@ -10,7 +10,7 @@ import uuid
 class Survey(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
     description = models.CharField(max_length=255)
-    profile = models.ForeignKey(Profile)
+    organisation = models.ForeignKey(Organisation)
     survey_type = models.CharField(max_length=255, default="Misc")
     created = models.DateTimeField(default=timezone.now)
 

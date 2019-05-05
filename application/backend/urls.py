@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'survey/(?P<survey_id>[-\w]+)/item', SurveyItemView.as_view(), name='survey_item'),
     url(r'survey/(?P<survey_id>[-\w]+)', SingleSurveyView.as_view(), name='specific_survey'),
     url(r'survey', SurveyView.as_view(), name='survey'),
-    url(r'organisation/(?P<organisation_id>[-\w]+)/(?P<resource>[-\w]+)', SingleOrganisationView.as_view(), name='specific_organisation_resource'),
     url(r'organisation/(?P<organisation_id>[-\w]+)', SingleOrganisationView.as_view(), name='specific_organisation'),
     url(r'organisation', OrganisationView.as_view(), name='organisation'),
     url(r'item/(?P<item_id>[-\w]+)', SingleItemView.as_view(), name='specific_item'),

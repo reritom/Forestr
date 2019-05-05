@@ -6,12 +6,18 @@ from django.views import View
 from backend.models.organisation import Organisation
 from backend.models.profile import Profile
 from backend.models.survey import Survey
+
 from backend.serialisers.survey_serialiser import SurveySerialiser
 from backend.serialisers.profile_serialiser import ProfileSerialiser
+from backend.serialisers.item_serialiser import ItemSerialiser
 from backend.serialisers.organisation_serialiser import OrganisationSerialiser
-from backend.tools.decorators import Attach, login_required, attach_profile
-from backend.tools.model_tools import get_surveys_of_organisation, get_profiles_of_organisation
 
+from backend.tools.decorators import Attach, login_required, attach_profile
+from backend.tools.model_tools import (
+    get_surveys_of_organisation,
+    get_profiles_of_organisation,
+    get_items_of_organisation
+)
 from backend.tools.response_tools import (
     created,
     ok,
@@ -24,17 +30,12 @@ from backend.tools.response_tools import (
 @method_decorator(attach_profile, name="dispatch")
 class SingleOrganisationView(View):
     @method_decorator(Attach.incoming('organisation_id').to(Organisation).as_outgoing('organisation'))
-    def get(self, request, profile, organisation, resource=None):
+    def get(self, request, profile, organisation):
         if not organisation == profile.organisation:
             return not_permitted("Attempting to access organisation you dont belong to")
 
         serialised = {
-            'organisation': OrganisationSerialiser.serialise(organisation),
-            'surveys': [
-                SurveySerialiser.serialise(survey)
-                for survey
-                in get_surveys_of_organisation(organisation)
-            ]
+            'organisation': OrganisationSerialiser.serialise(organisation)
         }
 
         # If moderator, get users
@@ -42,13 +43,13 @@ class SingleOrganisationView(View):
             serialised['users'] = [
                 ProfileSerialiser.serialise(profile)
                 for profile in
-                get_profiles_of_organisation
+                get_profiles_of_organisation(organisation)
             ]
 
         return ok(serialised)
 
     @method_decorator(Attach.incoming('organisation_id').to(Organisation).as_outgoing('organisation'))
-    def patch(self, request, profile, organisation, resource=None):
+    def patch(self, request, profile, organisation):
         if not organisation == profile.organisation:
             return not_permitted("Attempting to access organisation you dont belong to")
 
@@ -69,13 +70,27 @@ class SingleOrganisationView(View):
             pass
 
         serialised = {
-            'organisation': OrganisationSerialiser.serialise(organisation)
+            'organisation': OrganisationSerialiser.serialise(organisation),
+            'surveys': [
+                SurveySerialiser.serialise(survey)
+                for survey
+                in get_surveys_of_organisation(organisation)
+            ],
+            'items': [
+                ItemSerialiser.serialise(item)
+                for item
+                in get_items_of_organisation(organisation)
+            ]
         }
 
         # If moderator, get users
         if profile.is_moderator:
             profiles = Profile.objects.filter(organisation=organisation)
-            serialised['users'] = [ProfileSerialiser.serialise(profile) for profile in profiles]
+            serialised['users'] = [
+                ProfileSerialiser.serialise(profile)
+                for profile in
+                get_profiles_of_organisation(organisation)
+            ]
 
         return accepted(serialised)
 

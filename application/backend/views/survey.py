@@ -4,7 +4,7 @@ from django.views import View
 
 from backend.models.survey import Survey
 from backend.serialisers.survey_serialiser import SurveySerialiser
-from backend.tools.decorators import Attach, login_required
+from backend.tools.decorators import Attach, login_required, attach_profile
 
 from backend.tools.response_tools import (
     created,
@@ -14,9 +14,11 @@ from backend.tools.response_tools import (
 
 @method_decorator(csrf_exempt, name="dispatch")
 @method_decorator(login_required, name="dispatch")
+@method_decorator(attach_profile, name="dispatch")
 class SurveyView(View):
-    def post(self, request):
+    def post(self, request, profile):
         survey = Survey.make(
+            organisation=profile.organisation,
             description=request.POST['description'],
             survey_type=request.POST['type']
         )
@@ -26,8 +28,8 @@ class SurveyView(View):
         })
 
 
-    def get(self, request):
-        surveys = Survey.objects.filter(user=request.user)
+    def get(self, request, profile):
+        surveys = Survey.objects.filter(organisation=profile.organisation)
 
         return ok({
             'surveys': [

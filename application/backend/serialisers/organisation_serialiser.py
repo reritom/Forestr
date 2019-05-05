@@ -4,5 +4,7 @@ class OrganisationSerialiser:
         return {
             'id': organisation.id,
             'name': organisation.name,
-            'description': organisation.description
+            'description': organisation.description,
+            'enterprise': organisation.enterprise,
+            'personal': organisation.personal
         }

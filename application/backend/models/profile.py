@@ -16,6 +16,7 @@ class Profile(models.Model):
     def is_moderator(self):
         return self.moderator
 
-    def set_organisation(self, organisation):
+    def set_organisation(self, organisation, moderator=False):
         self.organisation = organisation
+        self.moderator = moderator
         self.save()

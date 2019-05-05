@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-from backend.models.profile import Profile
+from backend.models.organisation import Organisation
 
 from datetime import datetime, timedelta
 import uuid
@@ -9,7 +9,7 @@ import uuid
 class Item(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
     external_id = models.CharField(max_length=255)
-    profile = models.ForeignKey(Profile, null=True)
+    organisation = models.ForeignKey(Organisation)
     tags = models.CharField(max_length=255, null=True)
     photos = models.CharField(max_length=255, null=True)
     description = models.CharField(max_length=255, null=True)

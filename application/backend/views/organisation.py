@@ -16,22 +16,24 @@ from backend.tools.response_tools import (
 @method_decorator(attach_profile, name="dispatch")
 class OrganisationView(View):
     def post(self, request, profile):
-        if profile.organisation:
+        if profile.organisation.enterprise:
             return conflict("User already part of an organisation")
 
         if Organisation.objects.filter(name=request.POST['name']).exists():
             return conflict(f"Organisation name {request.POST['name']} taken")
 
-        if Organisation.objects.filter(owner=profile.user).exists():
+        if Organisation.objects.filter(owner=profile.user, enterprise=True).exists():
             return conflict("User already owner of organisation")
 
         organisation = Organisation.make(
             name=request.POST['name'],
             description=request.POST['description'],
-            owner=request.user
+            owner=request.user,
+            enterprise=True,
+            personal=False
         )
 
-        profile.set_organisation(organisation)
+        profile.set_organisation(organisation, moderator=True)
 
         return created({
             'organisation': OrganisationSerialiser.serialise(organisation)

@@ -9,9 +9,11 @@ import uuid
 class Organisation(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
     name = models.CharField(max_length=255, unique=True)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User)
     created = models.DateTimeField(default=timezone.now, null=True)
     description = models.CharField(max_length=255)
+    personal = models.BooleanField(default=True)
+    enterprise = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -25,7 +27,5 @@ class Organisation(models.Model):
                 return generate_uuid()
             return id
 
-        print(f"Kwargs are {kwargs}")
         kwargs.setdefault('id', generate_uuid())
-        print(f"Kwargs are {kwargs}")
         return cls.objects.create(*args, **kwargs)
