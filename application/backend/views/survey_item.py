@@ -8,11 +8,11 @@ from backend.models.survey import Survey
 from backend.models.item import Item
 from backend.serialisers.survey_item_serialiser import SurveyItemSerialiser
 from backend.tools.decorators import Attach
+from backend.tools.form import Form
 
 from backend.tools.response_tools import (
     created,
     ok,
-    accepted,
     not_found,
     conflict
 )
@@ -22,10 +22,12 @@ from backend.tools.response_tools import (
 @method_decorator(Attach.incoming('survey_id').to(Survey).as_outgoing('survey'), name="dispatch")
 class SurveyItemView(View):
     def post(self, request, survey):
-        if not Item.objects.filter(id=request.POST['item_id']).exists():
+        form = Form.for_model(SurveyItem).with_request(request)
+
+        if not Item.objects.filter(id=form.item_id).exists():
             return not_found("Item for given id not found")
 
-        item = Item.objects.get(id=request.POST['item_id'])
+        item = Item.objects.get(id=form.item_id)
 
         if SurveyItem.objects.filter(survey=survey, item=item).exists():
             return conflict("This item has already been surveyed as part of this survey")
@@ -33,12 +35,10 @@ class SurveyItemView(View):
         survey_item = SurveyItem.make(
             survey=survey,
             item=item,
-            notes=request.POST['notes']
+            notes=form.notes
         )
 
-        return created({
-            'survey_item': SurveyItemSerialiser.serialise(survey_item)
-        })
+        return created({'survey_item': SurveyItemSerialiser.serialise(survey_item)})
 
     def get(self, request, survey):
         return ok({

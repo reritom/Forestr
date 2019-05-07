@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from backend.models.profile import Profile
+from backend.tools.form import Form
 from backend.serialisers.profile_serialiser import ProfileSerialiser
 
 from backend.tools.decorators import login_required

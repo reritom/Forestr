@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import uuid
 
+from backend.tools.form import Form
 from backend.models.profile import Profile
 from backend.models.organisation import Organisation
 from backend.tools.response_tools import (

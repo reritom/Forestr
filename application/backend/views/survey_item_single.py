@@ -6,6 +6,7 @@ from backend.models.survey_item import SurveyItem
 from backend.models.survey import Survey
 from backend.serialisers.survey_item_serialiser import SurveyItemSerialiser
 from backend.tools.decorators import Attach, Assert, attach_profile, login_required
+from backend.tools.form import Form
 
 from backend.tools.response_tools import (
     created,

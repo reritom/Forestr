@@ -10,6 +10,7 @@ from backend.serialisers.profile_serialiser import ProfileSerialiser
 from backend.serialisers.organisation_serialiser import OrganisationSerialiser
 
 from backend.tools.decorators import Attach, Assert, login_required, attach_profile
+from backend.tools.form import Form
 from backend.tools.model_tools import (
     get_surveys_of_organisation,
     get_profiles_of_organisation,
@@ -44,21 +45,46 @@ class SingleOrganisationView(View):
         return ok(serialised)
 
     def patch(self, request, profile, organisation):
-        # TODO Assign moderator
-        if profile.is_moderator:
-            pass
+        if not profile.is_moderator:
+            return not_permitted("Only moderators or owners can update the organisation")
 
-        # Remove moderator (if owner)
-        if profile.is_owner_of(organisation):
-            pass
+        form = {}
 
-        # Change owner (if owner)
-        if profile.is_owner_of(organisation):
-            pass
+        # Change the name
+        if form.name:
+            if profile.is_owner_of(organisation):
+                organisation.change_name(form.name)
+            else:
+                return not_permitted("Only the owner can change the organisation name")
+
+        # Change owner
+        if form.owner:
+            if profile.is_owner_of(organisation):
+                # Get the account for that user
+                # Check they are a member of this organisation
+                # Create the contract
+                pass
 
         # Add user
-        if profile.is_moderator:
-            pass
+        if form.new_members:
+            if profile.is_moderator:
+                pass
+
+        # Remove user
+        if form.remove_members:
+            if profile.is_moderator:
+                pass
+
+        # Add moderator
+        if form.add_moderator:
+            if profile.is_moderator:
+                # Get the profile, check it is already a member
+                pass
+
+        # Remove moderator
+        if form.remove_moderator:
+            if profile.is_moderator:
+                pass
 
         serialised = {
             'organisation': OrganisationSerialiser.serialise(organisation)

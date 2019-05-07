@@ -5,6 +5,7 @@ from django.views import View
 from backend.models.survey import Survey
 from backend.serialisers.survey_serialiser import SurveySerialiser
 from backend.tools.decorators import Attach, login_required, attach_profile, Assert
+from backend.tools.form import Form
 
 from backend.tools.response_tools import (
     created,

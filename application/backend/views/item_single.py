@@ -5,6 +5,7 @@ from django.views import View
 from backend.models.item import Item
 from backend.serialisers.item_serialiser import ItemSerialiser
 from backend.tools.decorators import Attach, Assert, attach_profile, login_required
+from backend.tools.form import Form
 
 from backend.tools.model_tools import (
     is_item_external_id_unique_to_organisation
