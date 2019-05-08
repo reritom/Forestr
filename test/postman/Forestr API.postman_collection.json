@@ -45,6 +45,105 @@
 			"response": []
 		},
 		{
+			"name": "Log in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/account/login",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get log in",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@test.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/account/login",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log out",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{domain}}/api/account/logout",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Profile",
 			"event": [
 				{
@@ -52,8 +151,7 @@
 					"script": {
 						"id": "dee86fc7-0414-466c-87f8-2a076818c9bc",
 						"exec": [
-							"var response = pm.response.json();",
-							"postman.setEnvironmentVariable('organisation_id', response.profile.organisation.id);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -126,7 +224,7 @@
 			"response": []
 		},
 		{
-			"name": "Get organisation",
+			"name": "Get organisation by id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -157,6 +255,42 @@
 						"api",
 						"organisation",
 						"{{organisation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get organisation",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "TestOrgInc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "TestDesc",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/organisation",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"organisation"
 					]
 				}
 			},
@@ -209,7 +343,7 @@
 			"response": []
 		},
 		{
-			"name": "Get survey",
+			"name": "Get survey by id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -240,6 +374,42 @@
 						"api",
 						"survey",
 						"{{survey_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get surveys",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/survey",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"survey"
 					]
 				}
 			},
@@ -347,6 +517,54 @@
 			"response": []
 		},
 		{
+			"name": "Get items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/item",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Post survey item",
 			"event": [
 				{
@@ -394,6 +612,105 @@
 						"survey",
 						"{{survey_id}}",
 						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get members",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('member_id', response.members[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/member",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"member"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get members by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36ee1d96-7661-4f73-b00f-7943e0b46c0d",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('item_id', response.item.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "lets look at some trees",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/member/{{member_id}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"member",
+						"{{member_id}}"
 					]
 				}
 			},

@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "77ecba96-11be-44e3-b7f5-78ee8af6d67f",
+		"name": "Basic Flow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign Up 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@test.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/account/signup",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post organisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3458b914-940d-4e28-87f1-8f3bd4fa3bb6",
+						"exec": [
+							"var response = pm.response.json();",
+							"postman.setEnvironmentVariable('organisation_id', response.organisation.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "TestOrgIncey",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "TestDesc",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/organisation",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"organisation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get organisation by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "TestOrgInc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "TestDesc",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/organisation/{{organisation_id}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"organisation",
+						"{{organisation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log out",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{domain}}/api/account/logout",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Up 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@test.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/account/signup",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -9,7 +9,7 @@ import uuid
 
 class SurveyItem(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
-    survey = models.ForeignKey(Survey, null=True)
+    survey = models.ForeignKey(Survey, null=True, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, null=True)
     notes = models.CharField(max_length=255)
     photos = models.CharField(max_length=255)

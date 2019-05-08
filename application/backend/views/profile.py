@@ -23,6 +23,7 @@ class ProfileView(View):
     def patch(self, request, profile):
         # Change the email, change the username, change the password
         # All require confirmations
+        # Apply for organisation
         pass
 
     def delete(self, request, profile):

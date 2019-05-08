@@ -1,3 +1,5 @@
+from backend.models.membership import Membership
+
 class ProfileSerialiser:
     @staticmethod
     def serialise(profile) -> dict:
@@ -8,11 +10,14 @@ class ProfileSerialiser:
 
     @staticmethod
     def serialise_with_organisation(profile) -> dict:
+        membership = Membership.objects.get(user=profile.user)
+
         return {
             'username': profile.user.username,
             'email': profile.user.email,
             'organisation': {
-                'id': profile.organisation.id,
-                'name': profile.organisation.name
+                'id': membership.organisation.id,
+                'name': membership.organisation.name,
+                'moderator': membership.moderator
             }
         }

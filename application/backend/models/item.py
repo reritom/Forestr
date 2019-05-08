@@ -9,7 +9,7 @@ import uuid
 class Item(models.Model):
     id = models.CharField(max_length=255, unique=True, primary_key=True)
     external_id = models.CharField(max_length=255)
-    organisation = models.ForeignKey(Organisation)
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
     tags = models.CharField(max_length=255, null=True)
     photos = models.CharField(max_length=255, null=True)
     description = models.CharField(max_length=255, null=True)

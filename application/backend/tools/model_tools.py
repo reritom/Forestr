@@ -3,6 +3,7 @@ from backend.models.survey import Survey
 from backend.models.profile import Profile
 from backend.models.survey_item import SurveyItem
 from backend.models.item import Item
+from backend.models.membership import Membership
 
 def get_surveys_of_organisation(organisation):
     profiles = Profile.objects.filter(organisation=organisation)
@@ -16,6 +17,9 @@ def get_surveys_of_organisation(organisation):
 
 def get_profiles_of_organisation(organisation):
     return Profile.objects.filter(organisation=organisation)
+
+def get_members_of_organisation(organisation):
+    return Membership.objects.filter(organisation=organisation)
 
 def get_items_of_organisation(organisation):
     return Item.objects.filter(organisation=organisation)

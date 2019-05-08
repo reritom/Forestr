@@ -6,6 +6,7 @@ import uuid
 from backend.tools.form import Form
 from backend.models.profile import Profile
 from backend.models.organisation import Organisation
+from backend.models.membership import Membership
 from backend.tools.response_tools import (
     ok,
     not_logged_in,
@@ -21,18 +22,20 @@ def signup(request):
         return conflict("Already logged in")
 
     if request.method == 'POST':
-        if User.objects.filter(username=request.POST['username']).exists():
+        form = Form.for_model(User).with_request(request)
+
+        if User.objects.filter(username=form.username).exists():
             return conflict("This username already exists")
 
         user = User.objects.create_user(
-            username=request.POST['username'],
-            email=request.POST['email'],
-            password=request.POST['password']
-
+            username=form.username,
+            email=form.email,
+            password=form.password
         )
 
         organisation = Organisation.make(
             owner=user,
+            founder=user,
             personal=True,
             enterprise=False,
             name=str(uuid.uuid4()),
@@ -40,9 +43,15 @@ def signup(request):
         )
 
         profile = Profile.objects.create(
+            user=user
+        )
+
+        membership = Membership.make(
             user=user,
             organisation=organisation,
-            moderator=True
+            confirmed=True,
+            moderator=True,
+            origin=Membership.ORIGIN_OWNER
         )
 
         login(request, user)
