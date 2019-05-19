@@ -62,6 +62,7 @@ def signup(request):
 @csrf_exempt
 def login_user(request):
     if request.method == 'GET':
+        print(f"Checking login status, {request.user.is_authenticated()}")
         return ok({'logged_in': request.user.is_authenticated()})
 
     elif request.method == 'POST':
@@ -71,6 +72,7 @@ def login_user(request):
         if not User.objects.filter(username=request.POST['username']).exists():
             return not_found("Username doesn't exist")
 
+        print(f"Logging in {request.POST['username']} {request.POST['password']}")
         user = authenticate(
             request,
             username=request.POST['username'],

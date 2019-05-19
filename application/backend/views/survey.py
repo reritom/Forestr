@@ -28,6 +28,11 @@ class SurveyView(View):
             status=form.status or "PLANNED"
         )
 
+        if form.survey_items:
+            for survey_item in form.survey_items:
+                # TODO create a survey item
+                pass
+
         return created({'survey': SurveySerialiser.serialise(survey)})
 
 

@@ -22,10 +22,10 @@ app_name = 'backend'
 
 urlpatterns = [
     url(r'profile', ProfileView.as_view(), name='profile'),
-    url(r'account/login', login_user, name='login'),
-    url(r'account/logout', logout_user, name='logout'),
-    url(r'account/signup', signup, name='signup'),
-    url(r'survey/(?P<survey_id>[-\w]+)/item/(?P<item_id>[-\w]+)', SingleSurveyItemView.as_view(), name='specific_survey_item'),
+    url(r'account/signup$', signup, name='signup'),
+    url(r'account/login$', login_user, name='login'),
+    url(r'account/logout$', logout_user, name='logout'),
+    url(r'survey/(?P<survey_id>[-\w]+)/item/(?P<survey_item_id>[-\w]+)', SingleSurveyItemView.as_view(), name='specific_survey_item'),
     url(r'survey/(?P<survey_id>[-\w]+)/item', SurveyItemView.as_view(), name='survey_item'),
     url(r'survey/(?P<survey_id>[-\w]+)', SingleSurveyView.as_view(), name='specific_survey'),
     url(r'survey', SurveyView.as_view(), name='survey'),
